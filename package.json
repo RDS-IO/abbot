@@ -1,0 +1,22 @@
+{
+  "name": "exdixen",
+  "version": "0.0.1",
+  "description": "facebook getter",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@heroku.com:exdixen.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "logfmt": "^1.1.2",
+    "express": "^4.1.1"
+  },
+  "engine" : {
+	"node" : "0.10.x"
+  }
+}
