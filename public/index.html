@@ -29,48 +29,24 @@
 
 			function testAPI() {
 				console.log('Welcome!  Fetching your information.... ' + FB.getAuthResponse().accessToken);
-				FB.api('/me/posts', function(response) {
-					//console.log('Good to see you, ' + response.name + '.');
-					console.log("posts");
-					console.log(response);
+				FB.api('/me/permissions', function(response) {
+					console.log("permissions");
+					console.log(JSON.stringify(response.data[0]));
 				});
-				FB.api('/me/groups', function(response) {
-					//console.log('Good to see you, ' + response.name + '.');
-					console.log("posts");
-					console.log(response);
+				FB.api('/me/friendlists', function(response) {
+					console.log("friend lists");
+					for(var i in response.data){
+						FB.api(response.data[i].id + '/members', function(response){
+							for(var j in response.data){
+								console.log(response.data[j].name);
+							}
+						});
+					}
 				});
-				
-				/*
-				FB.api('/me/friendlist', function(response) {
-					//?fields=posts
-					//console.log('Good to see you, ' + response.name + '.');
-					console.log("friend list");
-					console.log(response);
-				});
-				FB.api('/me/post', function(response) {
-					//?fields=posts
-					//console.log('Good to see you, ' + response.name + '.');
-					console.log("post");
-					console.log(response);
-				});
-				var userToken = FB.getAuthResponse().accessToken;
-				//console.log("user Token : " + userToken);
-				*/
-			}
-			function fbLogout(){
-				FB.logout(function (response) {
-            		//Do what ever you want here when logged out like reloading the page
-            		window.location.reload();
-        		});
 			}
     	</script>
 		<h2>Place login with Facebook Button</h2>
-		<fb:login-button size="large" show-faces="true" width="200" max-rows="1"></fb:login-button>
-		<hr>
-		<span id="fbLogout" onclick="fbLogout()">
-			<a class="fb_button fb_button_medium">
-				<span class="fb_button_text">Logout</span>
-			</a>
-		<span>
+		<div class="fb-login-button" data-max-rows="10" data-size="large" data-show-faces="true" 
+				data-auto-logout-link="true" data-scope='email,user_likes,read_friendlists'></div>
 	</body>
 </html>
