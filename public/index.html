@@ -37,6 +37,7 @@
 			}
 
 			var allFriendsId = [];
+			var allFriendsName = [];
 			function testAPI() {
 				//console.log('Welcome! Fetching your information.... ' + FB.getAuthResponse().accessToken);	
 				accessFBAPI('/me/friendlists')
@@ -47,13 +48,14 @@
 								console.log(JSON.stringify(result));
 								for(var j in result.data){
 									allFriendsId.push(result.data[j].id);
+									allFriendsName.push(result.data[j].name);
 								}
 							}));
 						}
 						return $.when.apply(undefined, promises).promise();
 				}).then(function(){
 					console.log("after done");
-					console.log(allFriendsId.length);
+					console.log(allFriendsName);
 				});
 				/*
 				FB.api('/me/friendlists', function(response) {
