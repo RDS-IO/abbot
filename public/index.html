@@ -28,30 +28,32 @@
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
 
-			function queryAllFriends(){
+			function accessFBAPI(apiName){
 				var dfd = $.Deferred();
-				FB.api('/me/friendlists', function(response) {
-					console.log("friend lists");
+				FB.api(apiName, function(response) {
 					dfd.resolve(response);
 				});
 				return dfd.promise();
 			}
 
+			var allFriendsId = [];
 			function testAPI() {
-				console.log('Welcome!  Fetching your information.... ' + FB.getAuthResponse().accessToken);
-				var allFriendsId = [];
-				queryAllFriends().then(function(list){
-					console.log("after done");
-					for(var i in list.data){
-						FB.api(list.data[i].id + '/members', function(response){
-							for(var j in response.data){
-								//console.log(response.data[j].name);
-								allFriendsId.push(response.data[j].id);
-							}
-						});
-					}
+				//console.log('Welcome! Fetching your information.... ' + FB.getAuthResponse().accessToken);	
+				accessFBAPI('/me/friendlists')
+				.then(function(list){
+						var promises = [];
+						for(var i in list.data){
+							promises.push(accessFBAPI(list.data[i].id + '/members').done(function(result){
+								console.log(JSON.stringify(result));
+								for(var j in result.data){
+									allFriendsId.push(result.data[j].id);
+								}
+							}));
+						}
+						return $.when.apply(undefined, promises).promise();
 				}).then(function(){
-					console.log("after done done");
+					console.log("after done");
+					console.log(allFriendsId.length);
 				});
 				/*
 				FB.api('/me/friendlists', function(response) {
