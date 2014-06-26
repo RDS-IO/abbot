@@ -47,8 +47,10 @@
 							promises.push(accessFBAPI(list.data[i].id + '/members').done(function(result){
 								console.log(JSON.stringify(result));
 								for(var j in result.data){
-									allFriendsId.push(result.data[j].id);
-									allFriendsName.push(result.data[j].name);
+									if($.inArray(result.data[j].name, allFriendsName) == -1){
+										allFriendsName.push(result.data[j].name);
+										allFriendsId.push(result.data[j].id);
+									}
 								}
 							}));
 						}
@@ -56,18 +58,8 @@
 				}).then(function(){
 					console.log("after done");
 					console.log(allFriendsName);
+					console.log(allFriendsName.length)
 				});
-				/*
-				FB.api('/me/friendlists', function(response) {
-					console.log("friend lists");
-					for(var i in response.data){
-						FB.api(response.data[i].id + '/members', function(response){
-							for(var j in response.data){
-								console.log(response.data[j].name);
-							}
-						});
-					}
-				});*/
 			}
     	</script>
 		<div class="fb-login-button" data-max-rows="10" data-size="large" data-show-faces="true" 
