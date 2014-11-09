@@ -1,8 +1,9 @@
-<html>
-	<head><title>Facebook Profiles</title></head>
-	<body>
-		<div id="fb-root"></div>
-		<script language="JavaScript" src="js/jquery-2.1.1.min.js"></script>
+<html ng-app>
+	<head>
+		<title>Facebook Profiles</title>
+		<script language="JavaScript" src="js/lib/jquery-2.1.1.min.js"></script>
+		<script language="JavaScript" src="js/lib/angular.min.js"></script>
+		<script language="JavaScript" src="js/main.js"></script>
     	<script>
 			window.fbAsyncInit = function() {
 				FB.init({
@@ -12,7 +13,8 @@
 				});
 				FB.Event.subscribe('auth.authResponseChange', function(response) {
 					if (response.status === 'connected') {
-						testAPI();
+						//testAPI();
+						//getOnePage();
 					}else if(response.status === 'not_authorized'){
 						FB.login();
 					} else {
@@ -27,50 +29,19 @@
 				js.src = "//connect.facebook.net/en_US/all.js";
 				fjs.parentNode.insertBefore(js, fjs);
 			}(document, 'script', 'facebook-jssdk'));
-
-			function accessFBAPI(apiName){
-				var dfd = $.Deferred();
-				FB.api(apiName, function(response) {
-					dfd.resolve(response);
-				});
-				return dfd.promise();
-			}
-
-			var allFriendsId = [];
-			var allFriendsName = [];
-			function testAPI() {
-				//console.log('Welcome! Fetching your information.... ' + FB.getAuthResponse().accessToken);	
-				accessFBAPI('/me/friendlists')
-				.then(function(list){
-						var promises = [];
-						for(var i in list.data){
-							promises.push(accessFBAPI(list.data[i].id + '/members').done(function(result){
-								console.log(JSON.stringify(result));
-								for(var j in result.data){
-									allFriendsId.push(result.data[j].id);
-									allFriendsName.push(result.data[j].name);
-								}
-							}));
-						}
-						return $.when.apply(undefined, promises).promise();
-				}).then(function(){
-					console.log("after done");
-					console.log(allFriendsName);
-				});
-				/*
-				FB.api('/me/friendlists', function(response) {
-					console.log("friend lists");
-					for(var i in response.data){
-						FB.api(response.data[i].id + '/members', function(response){
-							for(var j in response.data){
-								console.log(response.data[j].name);
-							}
-						});
-					}
-				});*/
-			}
     	</script>
+	</head>
+	<body>
+		Nothing here {{'yet' + '!'}}
+		<p>1 + 2 = {{ 1 + 2 }}</p>
+		<ul>
+    		<li ng-repeat="phone in phones">
+	      		<span>{{phone.name}}</span>
+	      		<p>{{phone.snippet}}</p>
+    		</li>
+  		</ul>
+		<div id="fb-root"></div>
 		<div class="fb-login-button" data-max-rows="10" data-size="large" data-show-faces="true" 
-				data-auto-logout-link="true" data-scope='email,user_likes,read_friendlists'></div>
+				data-auto-logout-link="true" data-scope='email,user_likes,read_friendlists,read_stream'></div>
 	</body>
 </html>
