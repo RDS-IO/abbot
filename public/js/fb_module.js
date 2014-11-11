@@ -12,16 +12,10 @@ function fetchData($scope){
 		console.log("~~~~  data   ~~~");
 		var prs = [];
 		for(var i in response.data){
-			prs.push(accessFBAPI(response.data[i].id+'/members'));
-		}
-		$.when(prs).done(function(results){
-			console.log(results);
-		})
-		/*
-		$scope.$apply(function() {
+			$scope.$apply(function() {
 				$scope.feeds.push({"name" : response.data[i].name, "value" : response.data[i].id});
-		});
-		*/
+			});
+		}
 	});
 }
 
