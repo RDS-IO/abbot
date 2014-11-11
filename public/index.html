@@ -15,9 +15,11 @@
 				FB.Event.subscribe('auth.authResponseChange', function(response) {						
 					if(response.status === 'not_authorized'){
 						FB.login();
-					}else{
+					}else if(response.status === 'connected'){
 						var $scope = angular.element($('#fb-root')).scope();
 						fetchData($scope);
+					}else{
+						FB.login();
 					}
 				});				
 			};
