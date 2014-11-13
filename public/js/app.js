@@ -5,13 +5,13 @@ var fbFeedApp = angular.module('fbFeedApp',
 fbFeedApp.config([
 	'$routeProvider', function($routeProvider){
 		$routeProvider.when('/partials/haha', {
-			templateUrl : 'partials/haha.html',
+			templateUrl : '/partials/haha.html',
 			controller : 'haha'
 		}).when('/partials/lala', {
-			templateUrl : 'partials/lala.html',
+			templateUrl : '/partials/lala.html',
 			controller : 'lala'
 		}).otherwise({
-			redirectTo : 'www.google.com'
+			redirectTo : '/partials/haha'
 		});
 	}
 ]);
