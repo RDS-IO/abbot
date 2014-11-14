@@ -1,4 +1,6 @@
 
+var FBinitDef = new jQuery.Deferred();
+
 // execute this immediately
 (function(d, s, id){
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -16,14 +18,15 @@ window.fbAsyncInit = function() {
 	});
 	FB.Event.subscribe('auth.authResponseChange', function(response) {						
 		if(response.status === 'not_authorized'){
+			console.log("not login");
 			FB.login();
 		}else if(response.status === 'connected'){
-			var $scope = angular.element($('#fb-root')).scope();
-			fetchData($scope);
+			FBinitDef.resolve();
 		}else{
+			console.log("not login (else)");
 			FB.login();
 		}
-	});				
+	});
 };
 
 // util functions
@@ -35,19 +38,14 @@ function getOneFeedPage(id){
 }
 
 function fetchData($scope){
+	console.log("in fetch data");
 	FB.api("me/friendlists", function(response) {
-		var prs = [];
 		for(var i in response.data){
 			prs.push(accessFBAPI(response.data[i].id+'/members'));
 			$scope.$apply(function() {
 				$scope.feeds.push({"name" : response.data[i].name, "value" : response.data[i].id});
 			});
 		}
-		/*
-		$.when(prs).done(function(results){
-			console.log(results);
-			})
-		*/
 	});
 }
 
