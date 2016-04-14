@@ -1,5 +1,5 @@
 var express = require("express");
-var logfmt = require("logfmt");
+var bodyParser = require('body-parser')
 
 var app = express();
 
@@ -8,16 +8,27 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.use('/js', express.static(__dirname + '/public/js'));
 
-app.use(logfmt.requestLogger());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', function(req, res) {
-	res.render('index.html');
+	console.log("here i am");
+	res.send('hello, world!');
 });
 
-//for angular to fetch
-app.get('/partials/:name', function(req, res){
-	var name = req.params.name;
-	res.render('partials/' + name);
+app.get('/echo', function(req, res){
+	//var name = req.params.name;
+	//console.log(name);
+	console.log("on echo");
+	res.send('lalalal');
+});
+
+
+app.post('/fbhook', function(req, res){
+	console.log("ininini");
+	console.log(req.body);
+	console.log(req.body);
+	res.sendStatus(200);
 });
 
 var port = Number(process.env.PORT || 5000);
