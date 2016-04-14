@@ -23,6 +23,10 @@ app.get('/test', function(req, res){
 		//console.log(data);
 	});
 });
+app.get('/privacy', function(req, res){
+	res.render('partials/privacy.html');
+});
+
 var verify_token = "abcdefg";
 app.get('/fbhook', function (req, res) {
 	console.log(verify_token);
