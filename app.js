@@ -1,7 +1,7 @@
 var express = require("express");
 var bodyParser = require('body-parser')
 var request = require('request');
-request.debug = true;
+var fetch = require('./pttFetch.js');
 
 var app = express();
 
@@ -16,6 +16,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.get('/', function(req, res) {
 	console.log("here i am");
 	res.send('hello, world!');
+});
+app.get('/test', function(req, res){
+	fetch(function(data){
+		res.send(data);
+		//console.log(data);
+	});
 });
 var verify_token = "abcdefg";
 app.get('/fbhook', function (req, res) {
@@ -36,12 +42,15 @@ app.post('/fbhook/', function(req, res){
     for (var i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
         var sender = event.sender.id;
-//		console.log(event);
-		console.log(sender);
-
         if (event.message && event.message.text) {
             var text = event.message.text;
-            sendTextMessage(sender, "Echo: " + text.substring(0, 200));
+			if(text.indexOf("girl")!=-1){
+				fetch(function(link){
+					sendTextMessage(sender, link);
+				});
+			}else{
+				sendTextMessage(sender, "Echo: " + text.substring(0, 200));
+			}
         }
     }
 	res.sendStatus(200);

@@ -14,8 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.15.0",
+    "cheerio": "^0.20.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "iconv-lite": "^0.4.13",
     "request": "^2.71.0"
   },
   "engine": {
