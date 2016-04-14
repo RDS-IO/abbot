@@ -15,7 +15,8 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "ejs": "^2.4.1",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "request": "^2.71.0"
   },
   "engine": {
     "node": "5.10.1"
