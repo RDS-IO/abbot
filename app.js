@@ -17,19 +17,20 @@ app.get('/', function(req, res) {
 });
 var verify_token = "abcdefg";
 app.get('/fbhook', function (req, res) {
-
+	console.log(verify_token);
+	console.log(req.query['hub.verify_token']);
     if (req.query['hub.verify_token'] === verify_token) {
+		console.log("verify ok");
         res.send(req.query['hub.challenge']);
-    }
-
-    res.send('Error, wrong validation token');
-
+    }else{
+		console.log("verify not ok");
+		res.send('Error, wrong validation token');
+	}
 });
 
 app.post('/fbhook/', function(req, res){
 	console.log("ininini");
 	var messaging_events = req.body.entry[0].messaging;
-
     for (var i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
         var sender = event.sender.id;
