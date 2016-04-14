@@ -46,6 +46,7 @@ app.post('/fbhook/', function(req, res){
 	res.sendStatus(200);
 });
 
+var token = "CAAU2S3HRFS0BAPzZAEAIEGGJhC77sYRJtmJR58DDgtwpwZBjtD9pxVnphkiaKUUJlsPYDHaNYw1PxZC71uxUNXKYVZCOm1q1TD2W8p2di7HMCnyHmKLwfc8bGFeZCla5RN8Qu3TCsgZAODydrcyZB0LhvfDTyZBSko9XntR3ZAAh58AZBKYaaYmJIIzwhFmHqdJlJhiJfyk1BtAQZDZD"
 function sendTextMessage(sender, text) {
     var messageData = {
         text: text
