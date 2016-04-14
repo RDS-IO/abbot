@@ -1,6 +1,7 @@
 var express = require("express");
 var bodyParser = require('body-parser')
 var request = require('request');
+request.debug = true;
 
 var app = express();
 
@@ -35,7 +36,7 @@ app.post('/fbhook/', function(req, res){
     for (var i = 0; i < messaging_events.length; i++) {
         var event = req.body.entry[0].messaging[i];
         var sender = event.sender.id;
-		console.log(event);
+//		console.log(event);
 		console.log(sender);
 
         if (event.message && event.message.text) {
@@ -46,27 +47,25 @@ app.post('/fbhook/', function(req, res){
 	res.sendStatus(200);
 });
 
-var token = "CAAU2S3HRFS0BAPzZAEAIEGGJhC77sYRJtmJR58DDgtwpwZBjtD9pxVnphkiaKUUJlsPYDHaNYw1PxZC71uxUNXKYVZCOm1q1TD2W8p2di7HMCnyHmKLwfc8bGFeZCla5RN8Qu3TCsgZAODydrcyZB0LhvfDTyZBSko9XntR3ZAAh58AZBKYaaYmJIIzwhFmHqdJlJhiJfyk1BtAQZDZD"
+var pageToken = "CAAU2S3HRFS0BAObt4B9FdNWcUXZCguZCcEig3r6OLxsDSGTqjhApACeT00jfkC37sdpE48BMBe5ApqxZAsODUGMnqes8ZC6JADonvYXRETNu3yDZBEy6uSHkj7ZBzrNCQZAeDVcBSbE2oeknjbSeilKh3sowAnIN089637zItjQaIFZBgri6ica3uQLOW8k2S2oBqWqPslZAfGgZDZD"
 function sendTextMessage(sender, text) {
     var messageData = {
         text: text
     };
     request({
         url: 'https://graph.facebook.com/v2.6/me/messages',
-        qs: {access_token: token},
+        qs: {access_token: pageToken},
         method: 'POST',
         json: {
-            recipient: {id: sender},
-            message: messageData
+            "recipient": {"id": sender},
+            "message": messageData
         }
     }, function (error, response) {
-
         if (error) {
             console.log('Error sending message: ', error);
         } else if (response.body.error) {
             console.log('Error: ', response.body.error);
         }
-
     });
 }
 
