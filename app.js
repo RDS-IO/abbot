@@ -44,6 +44,7 @@ app.post('/fbhook/', function(req, res){
         var sender = event.sender.id;
         if (event.message && event.message.text) {
             var text = event.message.text;
+			console.log("here comes sender : " + sender);
 			if(text.indexOf("girl")!=-1){
 				fetch(function(link){
 					sendTextMessage(sender, link);

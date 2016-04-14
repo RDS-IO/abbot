@@ -18,7 +18,8 @@ var fetchGirl = function(callback){
             var data = rawHtmlToData(body);
             for(var i=0; i<data.length; i++){
                 if(data[i].title.indexOf("[正妹]")!=-1){
-                    callback('https://www.ptt.cc'+data[i].link);    
+                    callback('https://www.ptt.cc'+data[i].link);
+                    break;
                 }
             }
         }
@@ -42,28 +43,3 @@ function rawHtmlToData(rawHTML){
 }
 
 module.exports = fetchGirl;
-
-/*
-var doms = cheerio.load(rawHTML);
-var link = 'default';
-doms('#action-bar-container a').each(function(idx, e){
-    if(doms(this).text() == '?~@? ?~J?| ~A'){
-        link = doms(this).attr('href');
-    }
-});
-console.log(">>>> : " + link);
-console.log("number : " + link.match(/\d+/)[0]);
-var pttPageCount = link.match(/index\d+/)[0].match(/\d+/)[0];
-var neededPageCount = pttPageCount - (page - 2);
-console.log("need number : " + neededPageCount);
-var neededLink = link.replace(pttPageCount, neededPageCount);
-options.path = neededLink;
-rawHTML = "";
-var shttpReq = https.request(options, function(res){
-    res.on('data', function(chunk){
-        rawHTML += chunk;
-    });
-    res.on('end', function(){
-        callback(JSON.stringify(me.rawHtmlToData(rawHTML)));
-    })
-});*/
