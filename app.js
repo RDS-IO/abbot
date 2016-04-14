@@ -15,19 +15,32 @@ app.get('/', function(req, res) {
 	console.log("here i am");
 	res.send('hello, world!');
 });
+var verify_token = "abcdefg";
+app.get('/fbhook', function (req, res) {
 
-app.get('/echo', function(req, res){
-	//var name = req.params.name;
-	//console.log(name);
-	console.log("on echo");
-	res.send('lalalal');
+    if (req.query['hub.verify_token'] === verify_token) {
+        res.send(req.query['hub.challenge']);
+    }
+
+    res.send('Error, wrong validation token');
+
 });
 
-
-app.post('/fbhook', function(req, res){
+app.post('/fbhook/', function(req, res){
 	console.log("ininini");
-	console.log(req.body);
-	console.log(req.body);
+	var messaging_events = req.body.entry[0].messaging;
+
+    for (var i = 0; i < messaging_events.length; i++) {
+        var event = req.body.entry[0].messaging[i];
+        var sender = event.sender.id;
+		console.log(event);
+		console.log(sender);
+
+        if (event.message && event.message.text) {
+            var text = event.message.text;
+            sendTextMessage(sender, "Echo: " + text.substring(0, 200));
+        }
+    }
 	res.sendStatus(200);
 });
 
